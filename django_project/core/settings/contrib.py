@@ -4,7 +4,6 @@ from .base import *
 INSTALLED_APPS += (
     # 'raven.contrib.django',  # enable Raven plugin
     'south',
-    'crispy_forms',
     'pipeline',
     'social.apps.django_app.default',
 )

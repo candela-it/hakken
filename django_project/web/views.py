@@ -1,4 +1,8 @@
 import logging
 logger = logging.getLogger(__name__)
 
-# from .models import ...
+from django.views.generic.base import TemplateView
+
+
+class HomeView(TemplateView):
+    template_name = 'index.html'

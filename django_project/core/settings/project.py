@@ -31,7 +31,7 @@ PIPELINE_JS = {
             'js/jquery-1.10.2.min.js',
             'js/csrf-ajax.js',
             'js/underscore-min.js',
-            'js/bootstrap.min.js',
+            'js/semantic.min.js',
         ),
         'output_filename': 'js/contrib.js',
     }
@@ -40,8 +40,7 @@ PIPELINE_JS = {
 PIPELINE_CSS = {
     'contrib': {
         'source_filenames': (
-            'css/bootstrap.min.css',
-            # 'css/bootstrap-responsive.min.css',
+            'css/semantic.min.css',
         ),
         'output_filename': 'css/contrib.css',
         'extra_context': {
