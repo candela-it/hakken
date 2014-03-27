@@ -3,9 +3,9 @@ from .contrib import *
 DATABASES = {
     'default': {
         # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         # Or path to database file if using sqlite3.
-        'NAME': '',
+        'NAME': 'hakken',
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -19,6 +19,7 @@ DATABASES = {
 
 # Project apps
 INSTALLED_APPS += (
+    'web',
 )
 
 # Set debug to false for production

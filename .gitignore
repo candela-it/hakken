@@ -1,0 +1,7 @@
+*.pyc
+django_project/staticfiles
+django_project/mediafiles
+django_project/xmlrunner
+.coverage
+build/
+django_project/core/settings/secret.py
