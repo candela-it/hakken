@@ -18,11 +18,20 @@
   <a class="item">
     <i class="desktop icon"></i> Workdesk
   </a>
+  <div class="right menu">
+    <div class="item">
+      <div class="ui purple button"><i class="user icon"></i> Log-in</div>
+    </div>
+  </div>
 </div>
+
 {% block content %}
 
 {% endblock content %}
 
 {% compressed_js 'contrib' %}
+
+{% block extra_js %}
+{% endblock extra_js %}
 </body>
 </html>
