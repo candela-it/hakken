@@ -21,6 +21,7 @@ DATABASES = {
 INSTALLED_APPS += (
     'web',
     'projects',
+    'workunits',
     'admin',
     'workbench'
 )
