@@ -20,6 +20,8 @@ DATABASES = {
 # Project apps
 INSTALLED_APPS += (
     'web',
+    'admin',
+    'workbench'
 )
 
 # Set debug to false for production
