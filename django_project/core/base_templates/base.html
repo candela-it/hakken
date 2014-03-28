@@ -12,13 +12,13 @@
 
 <body>
 <div class="ui menu">
-  <a class="active item" href="/">
+  <a class="item" href="/" id="menu_home">
     <i class="home icon"></i> Home
   </a>
-  <a class="item">
+  <a class="item" id="menu_workdesk">
     <i class="desktop icon"></i> Workdesk
   </a>
-  <a class="item" href="{% url 'admin_home' %}">
+  <a class="item" href="{% url 'admin_home' %}"  id="menu_admin">
     <i class="settings icon"></i> Administration
   </a>
   <div class="right menu">
