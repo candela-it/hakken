@@ -49,3 +49,5 @@ PIPELINE_CSS = {
         },
     }
 }
+
+LOGIN_REDIRECT_URL = '/'

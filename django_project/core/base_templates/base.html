@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>{% block title%} Generic page {% endblock title%}</title>
+    <title>{% block title%} Hakken {% endblock title%}</title>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,10 +18,22 @@
   <a class="item">
     <i class="desktop icon"></i> Workdesk
   </a>
+  <a class="item">
+    <i class="settings icon"></i> Administration
+  </a>
   <div class="right menu">
-    <div class="item">
-      <div class="ui purple button"><i class="user icon"></i> Log-in</div>
-    </div>
+    {% if user.is_authenticated %}
+      <div class="item">
+        <i class="user icon"></i> {{ user.username }}
+      </div>
+      <div class="item">
+        <a class="ui button" href="{% url 'logout_user' %}">Log-out</a>
+      </div>
+    {% else %}
+      <div class="item">
+        <a class="ui purple button"  href="{% url 'social:begin' 'openstreetmap' %}"><i class="user icon"></i> Log-in</a>
+      </div>
+    {% endif %}
   </div>
 </div>
 
