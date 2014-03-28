@@ -2,13 +2,56 @@
 {% load compressed %}
 
 {% block content %}
-<div class="ui vertical pointing menu">
-  <a class="item" id="menu_admin_overview" href="{% url 'admin_home' %}">
-    <i class="dashboard icon"></i> Overview
-  </a>
-  <a class="item" id="menu_admin_add" href="{% url 'admin_add' %}">
-    <i class="add sign box icon"></i> Create new
-  </a>
+<div class="ui grid">
+	<div class="three wide column">
+		<div class="ui vertical pointing menu">
+		  <a class="item" id="menu_admin_overview" href="{% url 'admin_home' %}">
+		    <i class="dashboard icon"></i> Overview
+		  </a>
+		  <a class="item" id="menu_admin_add" href="{% url 'admin_add' %}">
+		    <i class="add sign box icon"></i> Create new
+		  </a>
+		</div>
+	</div>
+	<div class="ten wide column">
+		<div class="ui steps">
+		  <div class="ui active step">
+		    Select project
+		  </div>
+		  <div class="ui step">
+		    Project details
+		  </div>
+		  <div class="ui step">
+		    Edit project details
+		  </div>
+		</div>
+		<table class="ui table segment">
+			<thead>
+				<tr>
+			 		<th>Name</th>
+					<th>Status</th>
+			    	<th>Activity</th>
+			  	</tr>
+			</thead>
+			<tbody>
+			    <tr>
+			    	<td>Cholera outbreak</td>
+			    	<td>Active</td>
+			      	<td>High</td>
+			    </tr>
+			    <tr>
+			    	<td>Amazon delta</td>
+			      	<td>Active</td>
+			      	<td>Low</td>
+			    </tr>
+			</tbody>
+			<tfoot>
+			    <tr><th colspan="3">
+			      <div class="ui blue labeled icon button"><i class="add sign box icon"></i> Add new</div>
+			    </th>
+			</tr></tfoot>
+		</table>
+	</div>
 </div>
 {% endblock content %}
 
