@@ -2,13 +2,66 @@
 {% load compressed %}
 
 {% block content %}
-<div class="ui vertical pointing menu">
-  <a class="item" id="menu_admin_overview" href="{% url 'admin_home' %}">
-    <i class="dashboard icon"></i> Overview
-  </a>
-  <a class="item" id="menu_admin_add" href="{% url 'admin_add' %}">
-    <i class="add sign box icon"></i> Create new
-  </a>
+<div class="ui grid">
+	<div class="three wide column">
+		<div class="ui vertical pointing menu">
+		  <a class="item" id="menu_admin_overview" href="{% url 'admin_home' %}">
+		    <i class="dashboard icon"></i> Overview
+		  </a>
+		  <a class="item" id="menu_admin_add" href="{% url 'admin_add' %}">
+		    <i class="add sign box icon"></i> Create new
+		  </a>
+		</div>
+	</div>
+	<div class="ten wide column">
+		<div class="ui steps">
+		  <div class="ui active step">
+		    Basic information
+		  </div>
+		  <div class="ui step">
+		    Iterations
+		  </div>
+		  <div class="ui step">
+		    Publish
+		  </div>
+		</div>
+		<div class="ui form segment">
+		  <div class="field">
+		    <label>Project title</label>
+		    <div class="ui left labeled icon input">
+		      <input type="text" placeholder="Enter project title">
+		      <i class="info letter icon"></i>
+		      <div class="ui corner label">
+		        <i class="icon asterisk"></i>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="field">
+		    <label>Short description</label>
+		    <div class="ui left labeled icon input">
+		      <input type="text" placeholder="Enter short project description">
+		      <i class="text file icon"></i>
+		      <div class="ui corner label">
+		        <i class="icon asterisk"></i>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="field">
+		    <label>Starting zoom level</label>
+		    <div class="ui left labeled icon input">
+		      <input type="text" placeholder="Enter default zoom level for the project">
+		      <i class="zoom in icon"></i>
+		      <div class="ui corner label">
+		        <i class="icon asterisk"></i>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="ui error message">
+		    <div class="header">We noticed some issues</div>
+		  </div>
+		  <div class="ui right blue labeled icon button"><i class="right arrow icon"></i> Next</div>
+		</div>
+	</div>
 </div>
 {% endblock content %}
 
