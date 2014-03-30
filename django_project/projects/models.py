@@ -15,6 +15,8 @@ class Project(TimeStampedModel):
     STATUS = Choices('deleted', 'archived', 'hidden', 'active')
 
     title = models.CharField(max_length=200, help_text='Title of the project')
+    description = models.CharField(
+        max_length=200, help_text='Short description of the project')
     creator = models.ForeignKey(
         'auth.User', help_text='Project was created by'
     )
