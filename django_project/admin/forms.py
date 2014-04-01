@@ -2,29 +2,39 @@ import logging
 logger = logging.getLogger(__name__)
 
 import django.forms as forms
-
-from crispy_forms.helper import FormHelper
-# from crispy_forms.layout import (
-#     Layout,
-#     Submit,
-#     Div,
-#     HTML,
-#     Field,
-#     Button
-# )
-# from crispy_forms.bootstrap import (
-#     FormActions,
-#     Tab,
-#     TabHolder
-# )
+from projects.models import Project
 
 
-# class aModelForm(forms.ModelForm):
-#     class Meta:
-#         model = aModel
+class ProjectFormStepOne(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['title', 'description', 'initial_zoom']
+        widgets = {
+            'title': forms.TextInput(
+                attrs={'placeholder': 'Enter project title'}),
+            'description': forms.TextInput(
+                attrs={'placeholder': 'Enter project description'}),
+            'initial_zoom': forms.TextInput(
+                attrs={'placeholder': 'Enter default zoom level'}),
+        }
 
-#     def __init__(self, *args, **kwargs):
-#         self.helper = FormHelper()
-#         self.helper.html5_required = False
 
-#         super(aModelForm, self).__init__(*args, **kwargs)
+class ProjectFormStepTwo(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['area_of_interest']
+
+
+class ProjectFormStepThree(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['workflow']
+        widgets = {
+            'workflow': forms.RadioSelect()
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ProjectFormStepThree, self).__init__(*args, **kwargs)
+        self.fields['workflow'].empty_label = None
+        # following line needed to refresh widget copy of choice list
+        self.fields['workflow'].widget.choices = self.fields['workflow'].choices

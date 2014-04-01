@@ -1,0 +1,49 @@
+{% extends "base.html"%}
+{% load compressed %}
+
+{% block content %}
+<script src="http://openlayers.org/api/OpenLayers.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}/gis/js/OLMapWidget.js"></script>
+<div class="ui grid">
+    <div class="three wide column">
+        <div class="ui vertical pointing menu">
+          <a class="item" id="menu_admin_overview" href="{% url 'admin_home' %}">
+            <i class="dashboard icon"></i> Overview
+          </a>
+          <a class="item" id="menu_admin_add" href="{% url 'admin_add' %}">
+            <i class="add sign box icon"></i> Create new
+          </a>
+        </div>
+    </div>
+    <div class="ten wide column">
+        <div class="ui steps">
+          <div class="ui step">
+            Basic information
+          </div>
+          <div class="ui active step">
+            Area selection
+          </div>
+          <div class="ui step">
+            Iterations
+          </div>
+          <div class="ui step">
+            Publish
+          </div>
+        </div>
+        <form  action="" method="post" enctype="multipart/form-data" id="new_project">{% csrf_token %}
+        <div class="ui form segment">
+        {{ form.area_of_interest }}
+        <button type="submit" class="ui right blue labeled icon button"><i class="right arrow icon"></i> Next</button>
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+
+<script>
+$('#menu_admin').addClass('active');
+$('#menu_admin_add').addClass('active');
+</script>
+{% endblock extra_js %}

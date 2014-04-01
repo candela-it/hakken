@@ -21,13 +21,14 @@ class Project(TimeStampedModel):
         'auth.User', help_text='Project was created by'
     )
     area_of_interest = models.MultiPolygonField(
-        srid=4326, help_text='Geometry for the area of interest'
+        srid=4326, help_text='Geometry for the area of interest',
+        blank=True, null=True
     )
     initial_zoom = models.IntegerField(
         help_text='Initial zoom level of a project'
     )
     status = StatusField()
-    workflow = models.ForeignKey('projects.Workflow')
+    workflow = models.ForeignKey('projects.Workflow', blank=True, null=True)
 
     def __unicode__(self):
         return '{} - {}'.format(self.id, self.title)
@@ -44,7 +45,7 @@ class Workflow(models.Model):
     )
 
     def __unicode__(self):
-        return '{} - {}'.format(self.id, self.title)
+        return '{} - {}'.format(self.title, self.description)
 
 
 class IterationStep(models.Model):

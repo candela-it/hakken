@@ -17,6 +17,7 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 # python social auth required settings
 AUTHENTICATION_BACKENDS = (
     'social.backends.openstreetmap.OpenStreetMapOAuth',
+    'django.contrib.auth.backends.ModelBackend'
 )
 
 SOCIAL_AUTH_OPENSTREETMAP_KEY = 'xuq0sXds8n9Bi2E6wcs49Y9vLREYVixxQkjcU2TF'
