@@ -30,8 +30,48 @@
             Publish
           </div>
         </div>
-        {{ project.title }}
-        {{ project.area_of_interest }}
+        <div class="ui segment">
+        <div class="ui ribbon red label">Project details</div>
+          <p><b>Title:</b> {{ project.title }}</p>
+          <p><b>Description:</b> {{ project.description }}</p>
+          <p><b>Creator:</b> {{ project.creator }}</p>
+          <p><b>Initial zoom:</b> {{ project.initial_zoom }}</p>
+          <p><b>Status:</b> {{ project.status }}</p>
+        </div>
+        <div class="ui segment">
+        <div class="ui ribbon red label">Area of interest</div>
+          <input type="hidden" id="polygon" name="polygon" value="{{ project.area_of_interest }}" />
+          <div id="polygon_map" class="olMap" style="width: 600px; height: 500px;"></div>
+          <script type="text/javascript">
+            var map_options = {};
+            var options = {
+                geom_name: 'MultiPolygon',
+                id: 'polygon',
+                map_id: 'polygon_map',
+                map_options: map_options,
+                map_srid: 4326,
+                name: 'polygon',
+                modifiable: false
+            };
+            var polygon_widget = new MapWidget(options);
+        </script>
+        </div>
+        <div class="ui segment">
+        <div class="ui ribbon red label">Workflow</div>
+        <div class="ui relaxed divided list">
+        {% for iteration in project.workflow.iteration.all %}
+          <div class="item">
+            <i class="circular pencil icon"></i>
+            <div class="content">
+              <a class="header">{{ iteration.question }}</a>
+              {% for answer in iteration.answers.all %}
+                <div class="description">{{ answer.text }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

@@ -277,13 +277,7 @@ MapWidget.prototype.read_wkt = function(wkt) {
 };
 
 MapWidget.prototype.write_wkt = function(feat) {
-    //feat = OpenLayers.Util.properFeatures(feat, this.options.geom_type);
-    //console.log(this.layers.vector.features);
-    var feat = new OpenLayers.Feature.Vector(new this.options.geom_type());
-    num_geom = this.layers.vector.features.length;
-    for (var i=0; i<num_geom; i++) {
-                feat.geometry.addComponents([this.layers.vector.features[i].geometry]);
-            }
+    feat = OpenLayers.Util.properFeatures(feat, this.options.geom_type);
     if (this.options.is_collection) {
         this.num_geom = feat.geometry.components.length;
     } else {
