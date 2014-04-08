@@ -32,8 +32,12 @@
         </div>
         <form  action="" method="post" enctype="multipart/form-data" id="new_project">{% csrf_token %}
         <div class="ui form segment">
-        {{ form.area_of_interest }}
+        <div class="row"><div class="column">
+          {{ form.area_of_interest }}
+        </div></div>
+        <div class="row"><div class="column">
         <button type="submit" class="ui right blue labeled icon button"><i class="right arrow icon"></i> Next</button>
+        </div></div>
         </div>
         </form>
     </div>
