@@ -1,15 +1,11 @@
 import logging
 logger = logging.getLogger(__name__)
 from django.views.generic.base import TemplateView
-from django.views.generic import FormView, UpdateView, DetailView
+from django.views.generic import FormView, UpdateView, DetailView, ListView
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
 from projects.models import Project
-
-
-class HomeView(TemplateView):
-    template_name = 'adminhome.html'
 
 
 class AddNewStepOne(FormView):
@@ -65,3 +61,9 @@ class AddNewConfirm(DetailView):
     context_object_name = 'project'
     model = Project
     template_name = 'admin_add_confirm.html'
+
+
+class HomeView(ListView):
+    context_object_name = 'projects'
+    model = Project
+    template_name = 'adminhome.html'

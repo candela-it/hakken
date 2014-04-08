@@ -28,22 +28,19 @@
 		<table class="ui table segment">
 			<thead>
 				<tr>
-			 		<th>Name</th>
+			 		<th>Title</th>
 					<th>Status</th>
 			    	<th>Activity</th>
 			  	</tr>
 			</thead>
 			<tbody>
-			    <tr>
-			    	<td>Cholera outbreak</td>
-			    	<td>Active</td>
-			      	<td>High</td>
-			    </tr>
-			    <tr>
-			    	<td>Amazon delta</td>
-			      	<td>Active</td>
-			      	<td>Low</td>
-			    </tr>
+			 	{% for project in projects.all %}
+			 	<tr>
+			 		<td><a href="{% url 'admin_add_confirm' project.id %}" >{{ project.title }}</a></td>
+			 		<td>{{ project.status }}</td>
+			 		<td> - </td>
+			 	</tr>
+			 	{% endfor %}
 			</tbody>
 			<tfoot>
 			    <tr><th colspan="3">
