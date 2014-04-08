@@ -51,7 +51,8 @@
                 map_options: map_options,
                 map_srid: 4326,
                 name: 'polygon',
-                modifiable: false
+                modifiable: false,
+                base_layer: new OpenLayers.Layer.OSM()
             };
             var polygon_widget = new MapWidget(options);
         </script>
