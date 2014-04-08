@@ -20,12 +20,12 @@
           <div class="ui step">
             Basic information
           </div>
-          <div class="ui step">
+          <a class="ui step" href="{% url 'admin_add_two' project.id %}">
             Area selection
-          </div>
-          <div class="ui step">
+          </a>
+          <a class="ui step" href="{% url 'admin_add_three' project.id %}">
             Iterations
-          </div>
+          </a>
           <div class="ui active step">
             Publish
           </div>
@@ -37,6 +37,9 @@
           <p><b>Creator:</b> {{ project.creator }}</p>
           <p><b>Initial zoom:</b> {{ project.initial_zoom }}</p>
           <p><b>Status:</b> {{ project.status }}</p>
+          {% if project.canBePublished %}
+            <a class="ui right red labeled icon button submit" href="{% url 'admin_publish' project.id %}"><i class="right arrow icon"></i> Publish</a>
+          {% endif %}
         </div>
         <div class="ui segment">
         <div class="ui ribbon red label">Area of interest</div>

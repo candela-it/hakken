@@ -1,7 +1,6 @@
 import logging
 logger = logging.getLogger(__name__)
-from django.views.generic.base import TemplateView
-from django.views.generic import FormView, UpdateView, DetailView, ListView
+from django.views.generic import FormView, UpdateView, DetailView, ListView, RedirectView
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
@@ -67,3 +66,15 @@ class HomeView(ListView):
     context_object_name = 'projects'
     model = Project
     template_name = 'adminhome.html'
+
+
+class PublishProject(RedirectView):
+
+    def get(self, request, *args, **kwargs):
+        project = Project.objects.get(pk=kwargs.get('pk'))
+        if project.canBePublished:
+            project.status = 'active'
+            project.save()
+
+        return HttpResponseRedirect(
+            reverse('admin_add_confirm', kwargs={'pk': project.pk}))

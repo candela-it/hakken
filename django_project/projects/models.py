@@ -33,6 +33,12 @@ class Project(TimeStampedModel):
     def __unicode__(self):
         return '{} - {}'.format(self.id, self.title)
 
+    def canBePublished(self):
+        if self.area_of_interest is not None and self.workflow is not None and self.status == 'hidden':
+            return True
+        else:
+            return False
+
 
 class Workflow(models.Model):
     """
