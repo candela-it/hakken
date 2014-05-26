@@ -12,4 +12,5 @@ urlpatterns = patterns(
     url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'', include('web.urls')),
     url(r'', include('admin.urls')),
+    url(r'', include('workbench.urls')),
 )

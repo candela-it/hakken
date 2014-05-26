@@ -1,6 +1,7 @@
 import logging
 logger = logging.getLogger(__name__)
-from django.views.generic import FormView, UpdateView, DetailView, ListView, RedirectView
+from django.views.generic import (
+    FormView, UpdateView, DetailView, ListView, RedirectView)
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
