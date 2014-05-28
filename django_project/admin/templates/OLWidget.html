@@ -25,8 +25,7 @@
             map_id: '{{ id }}_map',
             map_options: map_options,
             map_srid: {{ map_srid }},
-            name: '{{ name }}',
-            base_layer: new OpenLayers.Layer.OSM()
+            name: '{{ name }}'
         };
         {% endblock %}
         var {{ module }} = new MapWidget(options);
