@@ -12,7 +12,7 @@ class Project(TimeStampedModel):
     """
     Hakken project base model
     """
-    STATUS = Choices('deleted', 'archived', 'hidden', 'active')
+    STATUS = Choices('deleted', 'archived', 'hidden', 'active', 'finished')
 
     title = models.CharField(max_length=200, help_text='Title of the project')
     description = models.CharField(

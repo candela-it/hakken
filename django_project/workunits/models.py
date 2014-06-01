@@ -2,6 +2,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from django.db import models
+from projects.utils import polyFromTile
 
 
 class WorkUnit(models.Model):
@@ -14,6 +15,9 @@ class WorkUnit(models.Model):
     z = models.IntegerField(help_text='WorkUnit Zoom level on the grid')
     project = models.ForeignKey('projects.Project')
     locked = models.BooleanField(help_text='Locked tile cannot be picked')
+
+    def polygonWKT(self):
+        return polyFromTile(self.x, self.y, self.z).wkt
 
     def __unicode__(self):
         return '{} ({}/{}/{})'.format(self.project, self.x, self.y, self.z)

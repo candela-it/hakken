@@ -5,12 +5,10 @@ from django.views.generic import (
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from django.contrib.gis.geos import Polygon
-
 from .forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
 from projects.models import Project
 from workunits.models import WorkUnit
-from .utils import deg2num, polyFromTile
+from projects.utils import deg2num, polyFromTile
 
 
 class AddNewStepOne(FormView):

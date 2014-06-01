@@ -19,6 +19,7 @@ DATABASES = {
 
 # Project apps
 INSTALLED_APPS += (
+    'leaflet',
     'web',
     'projects',
     'workunits',
@@ -46,6 +47,7 @@ PIPELINE_CSS = {
     'contrib': {
         'source_filenames': (
             'css/semantic.min.css',
+            'css/custom.css'
         ),
         'output_filename': 'css/contrib.css',
         'extra_context': {
@@ -55,3 +57,27 @@ PIPELINE_CSS = {
 }
 
 LOGIN_REDIRECT_URL = '/'
+
+LEAFLET_CONFIG = {
+    'DEFAULT_CENTER': (0, 0),
+    'DEFAULT_ZOOM': 4,
+    'RESET_VIEW': False,
+    'PLUGINS': {
+        'omnivore': {
+            'js': '//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.0.1/leaflet-omnivore.min.js',
+            'auto-include': True,
+        },
+        'sync': {
+            'js': 'js/leaflet.sync.js',
+            'auto-include': True,
+        },
+        'bing': {
+            'js': 'js/leaflet.bing.js',
+            'auto-include': True,
+        },
+        'google': {
+            'js': 'js/leaflet.google.js',
+            'auto-include': True,
+        },
+    }
+}
