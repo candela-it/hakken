@@ -5,6 +5,8 @@ from django.views.generic import (
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
+from django.contrib.gis.geos import Polygon
+
 from .forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
 from projects.models import Project
 from workunits.models import WorkUnit
@@ -82,8 +84,8 @@ class PublishProject(RedirectView):
             bbox = project.area_of_interest.envelope.extent
             bottomleft = deg2num(bbox[1], bbox[0], zoom)
             topright = deg2num(bbox[3], bbox[2], zoom)
-            for x in range(bottomleft[0], topright[0]):
-                for y in range(topright[1], bottomleft[1]):
+            for x in range(bottomleft[0], topright[0] + 1):
+                for y in range(topright[1], bottomleft[1] + 1):
                     poly = polyFromTile(x, y, zoom)
                     if poly.within(project.area_of_interest) or poly.intersects(project.area_of_interest):
                         wu = WorkUnit(
