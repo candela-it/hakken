@@ -1,5 +1,3 @@
-import math
-
 import logging
 logger = logging.getLogger(__name__)
 from django.views.generic import (
@@ -7,11 +5,10 @@ from django.views.generic import (
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
-from django.contrib.gis.geos import Polygon
-
-from forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
+from .forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
 from projects.models import Project
 from workunits.models import WorkUnit
+from .utils import deg2num, polyFromTile
 
 
 class AddNewStepOne(FormView):
@@ -87,18 +84,8 @@ class PublishProject(RedirectView):
             topright = deg2num(bbox[3], bbox[2], zoom)
             for x in range(bottomleft[0], topright[0]):
                 for y in range(topright[1], bottomleft[1]):
-                    north = tile2lat(y, zoom)
-                    south = tile2lat(y + 1, zoom)
-                    west = tile2lon(x, zoom)
-                    east = tile2lon(x + 1, zoom)
-                    poly = Polygon((
-                        (east, north),
-                        (east, south),
-                        (west, south),
-                        (west, north),
-                        (east, north)
-                    ))
-                    if (poly.within(project.area_of_interest)):
+                    poly = polyFromTile(x, y, zoom)
+                    if poly.within(project.area_of_interest) or poly.intersects(project.area_of_interest):
                         wu = WorkUnit(
                             x=x, y=y, z=zoom, project=project, locked=False)
                         wu.save()
@@ -106,22 +93,3 @@ class PublishProject(RedirectView):
 
         return HttpResponseRedirect(
             reverse('admin_add_confirm', kwargs={'pk': project.pk}))
-
-
-def deg2num(lat_deg, lon_deg, zoom):
-    lat_rad = math.radians(lat_deg)
-    n = 2.0 ** zoom
-    xtile = int((lon_deg + 180.0) / 360.0 * n)
-    ytile = int(
-        (1.0 - math.log(
-            math.tan(lat_rad) + (1 / math.cos(lat_rad))) / math.pi) / 2.0 * n)
-    return (xtile, ytile)
-
-
-def tile2lon(x, z):
-    return x / (2.0 ** z) * 360.0 - 180
-
-
-def tile2lat(y, z):
-    n = math.pi - ((2.0 * math.pi * y) / (2.0 ** z))
-    return math.degrees(math.atan(math.sinh(n)))
