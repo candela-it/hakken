@@ -85,7 +85,8 @@ class PublishProject(RedirectView):
             for x in range(bottomleft[0], topright[0] + 1):
                 for y in range(topright[1], bottomleft[1] + 1):
                     poly = polyFromTile(x, y, zoom)
-                    if poly.within(project.area_of_interest) or poly.intersects(project.area_of_interest):
+                    if (poly.within(project.area_of_interest) or
+                            poly.intersects(project.area_of_interest)):
                         wu = WorkUnit(
                             x=x, y=y, z=zoom, project=project, locked=False)
                         wu.save()

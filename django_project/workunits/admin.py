@@ -4,7 +4,7 @@ from .models import (
 
 
 class WorkUnitAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['x', 'y', 'z', 'locked']
 
 admin.site.register(WorkUnit, WorkUnitAdmin)
 
