@@ -1,7 +1,7 @@
 import logging
 logger = logging.getLogger(__name__)
 
-from django.db import models
+from django.contrib.gis.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -16,6 +16,10 @@ class WorkUnit(models.Model):
     x = models.IntegerField(help_text='WorkUnit X coordinate on the grid')
     y = models.IntegerField(help_text='WorkUnit Y coordinate on the grid')
     z = models.IntegerField(help_text='WorkUnit Zoom level on the grid')
+    polygon = models.PolygonField(
+        srid=4326, help_text='Geometry for the workunit',
+        blank=True, null=True
+    )
     project = models.ForeignKey('projects.Project')
     locked = models.BooleanField(help_text='Locked tile cannot be picked')
 
@@ -39,13 +43,18 @@ class Solution(models.Model):
 def checkToLockTile(sender, instance, **kwargs):
     deltaZoom = instance.workunit.z - instance.workunit.project.initial_zoom
     solutionCount = Solution.objects.filter(workunit=instance.workunit).count()
+    # if delta is 0, we are on first iteration
     if deltaZoom == 0:
+        # if there are 3 solutions, lock tile as we consider it solved
         if solutionCount == 3:
-            WorkUnit.objects.filter(pk=instance.workunit.id).update(locked=True)
+            WorkUnit.objects.filter(
+                pk=instance.workunit.id).update(locked=True)
             positiveCount = Solution.objects.filter(
                 workunit=instance.workunit, answer__value=1).count()
+            # if there are more than 1(50%) positive answers, create tiles
+            # for next zoom level and iteration
             if positiveCount > 1:
-                zoom = instance.workunit.z+1
+                zoom = instance.workunit.z + 1
                 poly = polyFromTile(
                     instance.workunit.x,
                     instance.workunit.y,
@@ -65,4 +74,5 @@ def checkToLockTile(sender, instance, **kwargs):
                         )
     else:
         if solutionCount == 5:
-            WorkUnit.objects.filter(pk=instance.workunit.id).update(locked=True)
+            WorkUnit.objects.filter(
+                pk=instance.workunit.id).update(locked=True)
