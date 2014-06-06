@@ -20,6 +20,7 @@ DATABASES = {
 # Project apps
 INSTALLED_APPS += (
     'leaflet',
+    'djgeojson',
     'web',
     'projects',
     'workunits',

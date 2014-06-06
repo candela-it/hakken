@@ -1,6 +1,7 @@
 {% extends "base.html"%}
 {% load compressed %}
 {% load leaflet_tags %}
+{% load geojson_tags %}
 
 {% block head %}
     {% leaflet_css %}
@@ -74,8 +75,7 @@
 {% block extra_js %}
 {% leaflet_js %}
 <script>
-var projectAOI = '{{ project.area_of_interest|safe }}'
-
+var projectAOI = '{{ project.area_of_interest|safe }}';
 $('#menu_admin').addClass('active');
 $('#menu_admin_add').addClass('active');
 $('.ui.radio.checkbox')
@@ -85,16 +85,18 @@ $('.ui.radio.checkbox')
 function map_init (map, options) {
   var bing = new L.BingLayer("AgSEcL7XIjrTt9idnR2R-chdcVCdoEjWSlBfrh2g_flcUqKMRNxFHtqfCxJ63fs_");
   map.addLayer(bing);
-  console.log('test')
-  wu = omnivore.wkt.parse(projectAOI);
-  console.log(wu)
-  wu.setStyle({
+  aoi = omnivore.wkt.parse(projectAOI);
+  aoi.setStyle({
     "color": "#ff7800",
     "weight": 2,
-    "fillOpacity": 0
+    "fillOpacity": 0.3
   });
-  wu.addTo(map);
-  map.fitBounds(wu.getBounds())
+  aoi.addTo(map);
+  grid = L.geoJson({{ workunits|geojsonfeature:"id:polygon"|safe}},
+    { style: { "color": "#ff0000", "weight": 1, "fillOpacity": 0 }
+    }
+    ).addTo(map);
+  map.fitBounds(grid.getBounds())
 }
 </script>
 {% endblock extra_js %}

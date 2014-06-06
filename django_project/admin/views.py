@@ -65,6 +65,12 @@ class AddNewConfirm(DetailView):
     model = Project
     template_name = 'admin_add_confirm.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(AddNewConfirm, self).get_context_data(**kwargs)
+        workunits = WorkUnit.objects.filter(project=self.object)
+        context['workunits'] = workunits
+        return context
+
 
 class HomeView(ListView):
     context_object_name = 'projects'

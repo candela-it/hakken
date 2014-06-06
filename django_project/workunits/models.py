@@ -23,6 +23,8 @@ class WorkUnit(models.Model):
     project = models.ForeignKey('projects.Project')
     locked = models.BooleanField(help_text='Locked tile cannot be picked')
 
+    objects = models.GeoManager()
+
     def polygonWKT(self):
         return polyFromTile(self.x, self.y, self.z).wkt
 
