@@ -34,7 +34,8 @@ class Project(TimeStampedModel):
         return '{} - {}'.format(self.id, self.title)
 
     def canBePublished(self):
-        if self.area_of_interest is not None and self.workflow is not None and self.status == 'hidden':
+        if (self.area_of_interest is not None and
+                self.workflow is not None and self.status == 'hidden'):
             return True
         else:
             return False

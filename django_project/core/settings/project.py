@@ -64,7 +64,7 @@ LEAFLET_CONFIG = {
     'RESET_VIEW': False,
     'PLUGINS': {
         'omnivore': {
-            'js': '//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.0.1/leaflet-omnivore.min.js',
+            'js': 'js/leaflet-omnivore.min.js',
             'auto-include': True,
         },
         'sync': {

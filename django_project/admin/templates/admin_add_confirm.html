@@ -1,5 +1,11 @@
 {% extends "base.html"%}
 {% load compressed %}
+{% load leaflet_tags %}
+
+{% block head %}
+    {% leaflet_css %}
+{% endblock head %}
+
 
 {% block content %}
 <script src="http://openlayers.org/api/OpenLayers.js"></script>
@@ -43,21 +49,7 @@
         </div>
         <div class="ui segment">
         <div class="ui ribbon red label">Area of interest</div>
-          <input type="hidden" id="polygon" name="polygon" value="{{ project.area_of_interest }}" />
-          <div id="polygon_map" class="olMap" style="width: 600px; height: 500px;"></div>
-          <script type="text/javascript">
-            var map_options = {};
-            var options = {
-                geom_name: 'MultiPolygon',
-                id: 'polygon',
-                map_id: 'polygon_map',
-                map_options: map_options,
-                map_srid: 4326,
-                name: 'polygon',
-                modifiable: false
-            };
-            var polygon_widget = new MapWidget(options);
-        </script>
+          {% leaflet_map "map" callback="window.map_init" %}
         </div>
         <div class="ui segment">
         <div class="ui ribbon red label">Workflow</div>
@@ -80,12 +72,29 @@
 {% endblock content %}
 
 {% block extra_js %}
-
+{% leaflet_js %}
 <script>
+var projectAOI = '{{ project.area_of_interest|safe }}'
+
 $('#menu_admin').addClass('active');
 $('#menu_admin_add').addClass('active');
 $('.ui.radio.checkbox')
   .checkbox()
 ;
+
+function map_init (map, options) {
+  var bing = new L.BingLayer("AgSEcL7XIjrTt9idnR2R-chdcVCdoEjWSlBfrh2g_flcUqKMRNxFHtqfCxJ63fs_");
+  map.addLayer(bing);
+  console.log('test')
+  wu = omnivore.wkt.parse(projectAOI);
+  console.log(wu)
+  wu.setStyle({
+    "color": "#ff7800",
+    "weight": 2,
+    "fillOpacity": 0
+  });
+  wu.addTo(map);
+  map.fitBounds(wu.getBounds())
+}
 </script>
 {% endblock extra_js %}
