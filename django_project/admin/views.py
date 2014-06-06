@@ -87,9 +87,14 @@ class PublishProject(RedirectView):
                     poly = polyFromTile(x, y, zoom)
                     if (poly.within(project.area_of_interest) or
                             poly.intersects(project.area_of_interest)):
-                        wu = WorkUnit(
-                            x=x, y=y, z=zoom, project=project, locked=False)
-                        wu.save()
+                        WorkUnit.objects.create(
+                            x=x,
+                            y=y,
+                            z=zoom,
+                            project=project,
+                            locked=False,
+                            polygon=poly
+                        )
             project.save()
 
         return HttpResponseRedirect(
