@@ -28,6 +28,9 @@ class WorkUnit(models.Model):
     def polygonWKT(self):
         return polyFromTile(self.x, self.y, self.z).wkt
 
+    def step(self):
+        return '{}'.format(self.z - self.project.initial_zoom + 1)
+
     def __unicode__(self):
         return '{} ({}/{}/{})'.format(self.project, self.x, self.y, self.z)
 
@@ -67,13 +70,20 @@ def checkToLockTile(sender, instance, **kwargs):
                 topright = deg2num(bbox[3], bbox[2], zoom)
                 for x in range(bottomleft[0], topright[0]):
                     for y in range(topright[1], bottomleft[1]):
-                        WorkUnit.objects.create(
-                            x=x,
-                            y=y,
-                            z=zoom,
-                            project=instance.workunit.project,
-                            locked=False
-                        )
+                        workpoly = polyFromTile(x, y, zoom)
+                        if (workpoly.within(
+                            instance.workunit.project.area_of_interest) or
+                                workpoly.intersects(
+                                    instance.workunit.project.area_of_interest
+                                )):
+                            WorkUnit.objects.create(
+                                x=x,
+                                y=y,
+                                z=zoom,
+                                project=instance.workunit.project,
+                                locked=False,
+                                polygon=workpoly
+                            )
     else:
         if solutionCount == 5:
             WorkUnit.objects.filter(

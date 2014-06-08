@@ -23,10 +23,17 @@ class workProject(DetailView):
     def get_context_data(self, **kwargs):
         context = super(workProject, self).get_context_data(**kwargs)
         try:
-            #fetch first unlocked WU with highest zoom level
-            wu = WorkUnit.objects.filter(
-                locked=False, project=self.object).order_by('-z')[:1].get()
+            # if there is no speficifed WU
+            # fetch first unlocked WU with highest zoom level
+            if ('wu' in self.kwargs):
+                wu = WorkUnit.objects.get(id=self.kwargs['wu'])
+            else:
+                wu = WorkUnit.objects.filter(
+                    locked=False, project=self.object).order_by('-z')[:1].get()
             context['workunit'] = wu
+            workunits = WorkUnit.objects.filter(
+                project=self.object, locked=False)
+            context['workunits'] = workunits
             # we need iteration that matches WU zoom
             # inital zoom -- 1st iteration
             # inital zoom + 1 -- 2nd iteration

@@ -1,19 +1,25 @@
 {% extends "base.html"%}
 {% load compressed %}
 {% load leaflet_tags %}
+{% load geojson_tags %}
 
 {% block head %}
     {% leaflet_css %}
 {% endblock head %}
 
 {% block content %}
-<div class="ui two column grid">
-    <div class="row">
+<div class="ui grid">
+    <div class="three column row">
         <div class="column">
-            <h2>{{ project.title }}</h2>
+            <p>Project: <b>{{ project.title }}</b>
+            <p>Workunit: <b>{{ workunit.id }}</b>
+            <p>Iteration: <b>{{ workunit.step }}</b>
+        </div>
+        <div class="column">
+            {% leaflet_map "map_overview" callback="window.mapoverview_init" %}
         </div>
     </div>
-    <div class="row">
+    <div class="two column row">
         <div class="column">
             {% leaflet_map "map1" callback="window.map1_init" %}
         </div>
@@ -21,7 +27,7 @@
             {% leaflet_map "map2" callback="window.map2_init" %}
         </div>
     </div>
-    <div class="row">
+    <div class="two column row">
         <div class="column">
             {{ iteration.question }}
             <form action="{% url 'wb_submit' project.id %}" method="POST">
@@ -80,6 +86,31 @@ function map2_init (map, options) {
         map.fitBounds(wu.getBounds())
         map1.sync(map);
         map.sync(map1);
+    }
+
+function mapoverview_init (map, options) {
+        var bing = new L.BingLayer("AgSEcL7XIjrTt9idnR2R-chdcVCdoEjWSlBfrh2g_flcUqKMRNxFHtqfCxJ63fs_");
+        map.addLayer(bing);
+        grid = L.geoJson({{ workunits|geojsonfeature:"id:polygon"|safe}},
+        {
+            style: { "color": "#ff0000", "weight": 1, "fillOpacity": 0 },
+            onEachFeature: function(feature, layer) {
+                layer.on('click', function() {
+                    window.location.assign('/workbench/'+{{ project.id }}+'/'+feature.id+'/');
+                })
+            }
+        }
+        ).addTo(map);
+        map.fitBounds(grid.getBounds())
+        L.geoJson({{ workunit|geojsonfeature:"id:polygon"|safe}},
+        {
+            style: { "color": "#ff7800", "weight": 2, "fillOpacity": 0.5 }
+        }).addTo(map);
+        L.geoJson({{ project|geojsonfeature:"id:area_of_interest"|safe}},
+        {
+            style: { "color": "#ffff00", "weight": 1, "fillOpacity": 0.2 }
+        }
+        ).addTo(map);
     }
 </script>
 
