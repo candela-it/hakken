@@ -75,10 +75,6 @@ LEAFLET_CONFIG = {
         'bing': {
             'js': 'js/leaflet.bing.js',
             'auto-include': True,
-        },
-        'google': {
-            'js': 'js/leaflet.google.js',
-            'auto-include': True,
-        },
+        }
     }
 }
