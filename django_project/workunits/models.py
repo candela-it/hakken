@@ -2,6 +2,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 from django.contrib.gis.db import models
+from django.db.models import Count
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -30,6 +31,12 @@ class WorkUnit(models.Model):
 
     def step(self):
         return '{}'.format(self.z - self.project.initial_zoom + 1)
+
+    @property
+    def value(self):
+        solution = self.solution_set.annotate(
+            answer_count=Count('answer')).order_by('-answer_count')[0]
+        return '{}'.format(solution.answer.value)
 
     def __unicode__(self):
         return '{} ({}/{}/{})'.format(self.project, self.x, self.y, self.z)

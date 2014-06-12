@@ -2,8 +2,12 @@ import logging
 logger = logging.getLogger(__name__)
 from django.views.generic import (
     FormView, UpdateView, DetailView, ListView, RedirectView)
-from django.http import HttpResponseRedirect
+from django.views.generic.detail import BaseDetailView
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.db.models import Count, Max
+
+from djgeojson.serializers import Serializer as GeoJSONSerializer
 
 from .forms import ProjectFormStepOne, ProjectFormStepTwo, ProjectFormStepThree
 from projects.models import Project
@@ -105,3 +109,38 @@ class PublishProject(RedirectView):
 
         return HttpResponseRedirect(
             reverse('admin_add_confirm', kwargs={'pk': project.pk}))
+
+
+class DownloadRequest(BaseDetailView):
+    model = Project
+
+    def render_to_response(self, context):
+        project = context['object']
+        #no questions asked!
+        workunits = (
+            project.workunit_set
+            .values('solution__answer__value', 'x', 'y', 'z', 'polygon')
+            .annotate(
+                answ=Count('solution__answer__value'),
+                anws_val=Max('solution__answer__value')
+            ).filter(anws_val__isnull=False)
+        )
+        area = GeoJSONSerializer().serialize(
+            workunits,
+            use_natural_keys=True, geometry_field='polygon',
+            properties=['x', 'y', 'z', 'answ', 'anws_val'])
+
+        return self.json_response(
+            content=area,
+            filename=project.title
+        )
+
+    def json_response(self, content, filename, **httpresponse_kwargs):
+        response = HttpResponse(
+            content, content_type='application/json', **httpresponse_kwargs
+        )
+
+        response['Content-Disposition'] = '{}; filename="{}.geojson"'.format(
+            'attachment', filename)
+
+        return response

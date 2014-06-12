@@ -74,6 +74,11 @@ function map1_init (map, options) {
         wu.setStyle(myStyle);
         wu.addTo(map);
         map.fitBounds(wu.getBounds())
+        L.geoJson({{ project|geojsonfeature:"id:area_of_interest"|safe}},
+        {
+            style: { "color": "#ffff00", "weight": 2, "fillOpacity": 0 }
+        }
+        ).addTo(map);
         map1 = map;
     }
 
@@ -84,6 +89,11 @@ function map2_init (map, options) {
         wu.setStyle(myStyle);
         wu.addTo(map);
         map.fitBounds(wu.getBounds())
+        L.geoJson({{ project|geojsonfeature:"id:area_of_interest"|safe}},
+        {
+            style: { "color": "#ffff00", "weight": 2, "fillOpacity": 0 }
+        }
+        ).addTo(map);
         map1.sync(map);
         map.sync(map1);
     }

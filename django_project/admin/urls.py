@@ -5,7 +5,8 @@ from .views import (
     AddNewStepTwo,
     AddNewStepThree,
     AddNewConfirm,
-    PublishProject)
+    PublishProject,
+    DownloadRequest)
 
 urlpatterns = patterns(
     '',
@@ -19,5 +20,7 @@ urlpatterns = patterns(
     url(r'^project/add/confirm/(?P<pk>\d+)/$',
         AddNewConfirm.as_view(), name='admin_add_confirm'),
     url(r'^project/publish/(?P<pk>\d+)/$',
-        PublishProject.as_view(), name='admin_publish')
+        PublishProject.as_view(), name='admin_publish'),
+    url(r'^project/download/(?P<pk>\d+)/$',
+        DownloadRequest.as_view(), name='admin_download')
 )

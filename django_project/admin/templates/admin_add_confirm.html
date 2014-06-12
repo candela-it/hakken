@@ -47,6 +47,13 @@
           {% if project.canBePublished %}
             <a class="ui right red labeled icon button submit" href="{% url 'admin_publish' project.id %}"><i class="right arrow icon"></i> Publish</a>
           {% endif %}
+          {% if not project.canBePublished %}
+          <a href="{% url 'admin_download' project.id %}">
+                <div id="download-button" class="small ui secondary button">
+                  <i class="download icon"></i> Download solutions geometry
+                </div>
+          </a>
+          {% endif %}
         </div>
         <div class="ui segment">
         <div class="ui ribbon red label">Area of interest</div>
